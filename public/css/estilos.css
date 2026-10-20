@@ -1,0 +1,209 @@
+/* ===== Variables de color (fáciles de cambiar) ===== */
+:root {
+    --azul: #1a5fb4;
+    --azul-oscuro: #154c91;
+    --marino: #12304f;
+    --fondo: #f1f4f9;
+    --borde: #d9e0ea;
+    --texto: #1f2937;
+    --gris: #6b7280;
+    --rojo: #c0392b;
+    --radio: 10px;
+}
+
+/* ===== Base ===== */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.55;
+}
+
+a { color: var(--azul); }
+
+
+/* ===== Cabecera (blanca, para que el logo se vea bien) ===== */
+.cabecera {
+    background: #fff;
+    border-bottom: 3px solid var(--azul);
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 10px rgba(16, 24, 40, 0.08);
+}
+.logo { display: inline-flex; align-items: center; text-decoration: none; }
+.logo-imagen { height: 46px !important; width: auto !important; display: block; }
+.subtitulo {
+    color: var(--gris);
+    font-size: 0.95rem;
+    padding-left: 16px;
+    border-left: 2px solid var(--borde);
+}
+
+/* ===== Mensajes ===== */
+.mensaje {
+    padding: 12px 16px;
+    border-radius: var(--radio);
+    margin-bottom: 18px;
+    font-weight: 500;
+    border-left: 5px solid transparent;
+}
+.mensaje.exito { background: #e6f6ec; color: #17623a; border-left-color: #2e9d5b; }
+.mensaje.error { background: #fdeaea; color: #8a1f1f; border-left-color: var(--rojo); }
+.mensaje.cargando { background: #fff6dc; color: #7a5b00; border-left-color: #e0a800; }
+.oculto { display: none; }
+
+/* ===== Tarjetas ===== */
+.tarjeta {
+    background: #fff;
+    border-radius: var(--radio);
+    padding: 22px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 4px 14px rgba(16, 24, 40, 0.06);
+}
+.tarjeta h2 {
+    margin: 0 0 16px;
+    font-size: 1.15rem;
+    color: var(--marino);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--fondo);
+}
+
+/* ===== Formularios ===== */
+.rejilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+}
+
+label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 5px; color: var(--gris); }
+
+input, select, textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    font: inherit;
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15);
+}
+input.invalido { border-color: var(--rojo); background: #fff8f7; }
+.error-campo { color: var(--rojo); font-size: 0.8rem; min-height: 1.1em; margin-top: 3px; }
+
+/* ===== Botones ===== */
+.boton {
+    background: var(--azul);
+    color: #fff;
+    border: 0;
+    padding: 9px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.15s, transform 0.1s;
+}
+.boton:hover { background: var(--azul-oscuro); transform: translateY(-1px); }
+.boton:active { transform: translateY(0); }
+.boton.peligro { background: var(--rojo); }
+.boton.peligro:hover { background: #a02d22; }
+.boton.secundario { background: #e5e9f0; color: var(--texto); }
+.boton.secundario:hover { background: #d5dbe6; }
+.boton:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ===== Tabla ===== */
+.tabla-wrapper { overflow-x: auto; border: 1px solid var(--borde); border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { padding: 12px 14px; text-align: left; white-space: nowrap; }
+th {
+    background: var(--marino);
+    color: #fff;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+tbody tr { border-bottom: 1px solid #edf0f5; }
+tbody tr:nth-child(even) { background: #f8fafc; }
+tbody tr:hover { background: #eaf1fb; }
+td .boton { padding: 6px 12px; font-size: 0.82rem; }
+
+/* ===== Etiquetas de estado ===== */
+.estado {
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+.estado.pendiente { background: #fff1c2; color: #7a5b00; }
+.estado.confirmada { background: #d3f2df; color: #17623a; }
+.estado.cancelada { background: #fbd9d9; color: #8a1f1f; }
+
+/* ===== Timeline ===== */
+.timeline { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 3px solid #cfdcef; }
+.timeline li {
+    position: relative;
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+.timeline li::before {
+    content: "";
+    position: absolute;
+    left: -32px;
+    top: 14px;
+    width: 14px;
+    height: 14px;
+    background: var(--azul);
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--azul);
+}
+.timeline .fecha { color: var(--gris); font-size: 0.8rem; }
+
+/* ===== Responsive (móvil) ===== */
+@media (max-width: 600px) {
+    .cabecera { flex-direction: column; gap: 2px; padding: 14px 18px; }
+    .rejilla { grid-template-columns: 1fr; }
+    .tarjeta { padding: 16px; }
+}
+
+
+/* ===== Resumen (tarjetas de estadísticas) ===== */
+.resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+.resumen .dato {
+    background: #fff;
+    border-radius: var(--radio);
+    padding: 16px;
+    text-align: center;
+    border-top: 4px solid var(--azul);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 4px 14px rgba(16, 24, 40, 0.06);
+}
+.resumen .dato.pendiente { border-top-color: #e0a800; }
+.resumen .dato.confirmada { border-top-color: #2e9d5b; }
+.resumen .dato.cancelada { border-top-color: var(--rojo); }
+.resumen .numero { display: block; font-size: 1.9rem; font-weight: 700; color: var(--marino); }
+.resumen .etiqueta { font-size: 0.8rem; color: var(--gris); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.logo-imagen { height: 38px; width: auto; display: block; }
+
+
+.contenedor { max-width: 1100px; margin: 26px auto; padding: 0 16px; }
+.pie { text-align: center; padding: 24px; color: var(--gris); font-size: 0.85rem; }
