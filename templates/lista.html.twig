@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservas · MisterPlan{% endblock %}
+
+{% block contenido %}
+    {# ===== Resumen de reservas ===== #}
+    <section class="resumen" id="resumen">
+        <div class="dato"><span class="numero" id="res-total">{{ reservas|length }}</span><span class="etiqueta">Total</span></div>
+        <div class="dato pendiente"><span class="numero" id="res-pendiente">{{ reservas|filter(r => r.estado == 'pendiente')|length }}</span><span class="etiqueta">Pendientes</span></div>
+        <div class="dato confirmada"><span class="numero" id="res-confirmada">{{ reservas|filter(r => r.estado == 'confirmada')|length }}</span><span class="etiqueta">Confirmadas</span></div>
+        <div class="dato cancelada"><span class="numero" id="res-cancelada">{{ reservas|filter(r => r.estado == 'cancelada')|length }}</span><span class="etiqueta">Canceladas</span></div>
+    </section>
+    
+    {# ===== Filtros ===== #}
+    <section class="tarjeta">
+        <h2>Filtrar reservas</h2>
+        <form id="form-filtros" novalidate>
+            <div class="rejilla">
+                <div>
+                    <label for="f-estado">Estado</label>
+                    <select id="f-estado" name="estado">
+                        <option value="">Todos</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="confirmada">Confirmada</option>
+                        <option value="cancelada">Cancelada</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="f-nombre">Nombre del huésped</label>
+                    <input type="text" id="f-nombre" name="nombre" placeholder="Ej: María">
+                </div>
+                <div>
+                    <label for="f-desde">Entrada desde</label>
+                    <input type="date" id="f-desde" name="fecha_desde">
+                </div>
+                <div>
+                    <label for="f-hasta">Salida hasta</label>
+                    <input type="date" id="f-hasta" name="fecha_hasta">
+                </div>
+            </div>
+            <p>
+                <button type="submit" class="boton">Filtrar</button>
+                <button type="reset" class="boton secundario" id="btn-limpiar">Limpiar</button>
+            </p>
+        </form>
+    </section>
+
+    {# ===== Tabla de reservas ===== #}
+    <section class="tarjeta">
+        <h2>Reservas</h2>
+        <div class="tabla-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Huésped</th>
+                        <th>Alojamiento</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                        <th>Estado</th>
+                        <th>Importe</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-reservas">
+                    {% for r in reservas %}
+                        <tr>
+                            <td>{{ r.id }}</td>
+                            <td>{{ r.nombre_huesped }}</td>
+                            <td>{{ r.nombre_alojamiento }}</td>
+                            <td>{{ r.fecha_entrada|date('d/m/Y') }}</td>
+                            <td>{{ r.fecha_salida|date('d/m/Y') }}</td>
+                            <td><span class="estado {{ r.estado }}">{{ r.estado }}</span></td>
+                            <td>{{ r.importe|number_format(2, ',', '.') }} €</td>
+                            <td>
+                                <a class="boton secundario" href="{{ base_url }}/reservas/{{ r.id }}">Ver</a>
+                                {% if r.estado != 'cancelada' %}
+                                    <button type="button" class="boton peligro btn-cancelar" data-id="{{ r.id }}">Cancelar</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="8">No hay reservas.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    {# ===== Formulario de nueva reserva ===== #}
+    <section class="tarjeta">
+        <h2>Nueva reserva</h2>
+        <form id="form-crear" novalidate>
+            <div class="rejilla">
+                <div>
+                    <label for="c-nombre">Nombre del huésped *</label>
+                    <input type="text" id="c-nombre" name="nombre_huesped" maxlength="100">
+                    <div class="error-campo" data-campo="nombre_huesped"></div>
+                </div>
+                <div>
+                    <label for="c-email">Email *</label>
+                    <input type="email" id="c-email" name="email_huesped" maxlength="150">
+                    <div class="error-campo" data-campo="email_huesped"></div>
+                </div>
+                <div>
+                    <label for="c-alojamiento">Alojamiento *</label>
+                    <input type="text" id="c-alojamiento" name="nombre_alojamiento" maxlength="150">
+                    <div class="error-campo" data-campo="nombre_alojamiento"></div>
+                </div>
+                <div>
+                    <label for="c-entrada">Fecha de entrada *</label>
+                    <input type="date" id="c-entrada" name="fecha_entrada">
+                    <div class="error-campo" data-campo="fecha_entrada"></div>
+                </div>
+                <div>
+                    <label for="c-salida">Fecha de salida *</label>
+                    <input type="date" id="c-salida" name="fecha_salida">
+                    <div class="error-campo" data-campo="fecha_salida"></div>
+                </div>
+                <div>
+                    <label for="c-importe">Importe (€) *</label>
+                    <input type="number" id="c-importe" name="importe" step="0.01" min="0">
+                    <div class="error-campo" data-campo="importe"></div>
+                </div>
+            </div>
+            <div>
+                <label for="c-notas">Notas</label>
+                <textarea id="c-notas" name="notas" rows="2"></textarea>
+            </div>
+            <p><button type="submit" class="boton">Crear reserva</button></p>
+        </form>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ base_url }}/js/app.js"></script>
+{% endblock %}

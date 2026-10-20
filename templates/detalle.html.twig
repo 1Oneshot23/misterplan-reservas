@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reserva #{{ reserva.id }} · MisterPlan{% endblock %}
+
+{% block contenido %}
+    <p><a href="{{ base_url }}/">← Volver al listado</a></p>
+
+    <section class="tarjeta">
+        <h2>Reserva #{{ reserva.id }}
+            <span class="estado {{ reserva.estado }}" id="estado-actual">{{ reserva.estado }}</span>
+        </h2>
+        <p><strong>Huésped:</strong> {{ reserva.nombre_huesped }} ({{ reserva.email_huesped }})</p>
+        <p><strong>Alojamiento:</strong> {{ reserva.nombre_alojamiento }}</p>
+        <p><strong>Entrada:</strong> {{ reserva.fecha_entrada|date('d/m/Y') }}
+           · <strong>Salida:</strong> {{ reserva.fecha_salida|date('d/m/Y') }}</p>
+        <p><strong>Importe:</strong> {{ reserva.importe|number_format(2, ',', '.') }} €</p>
+        <p><strong>Notas:</strong> {{ reserva.notas ?: '—' }}</p>
+
+        {% if reserva.estado != 'cancelada' %}
+            <button type="button" class="boton peligro btn-cancelar" data-id="{{ reserva.id }}">Cancelar reserva</button>
+        {% endif %}
+    </section>
+
+    <section class="tarjeta">
+        <h2>Historial de cambios</h2>
+        <ul class="timeline">
+            {% for e in reserva.eventos %}
+                <li>
+                    <strong>{{ e.tipo|capitalize }}</strong>: {{ e.descripcion }}<br>
+                    <span class="fecha">{{ e.fecha_creacion|date('d/m/Y H:i') }}</span>
+                </li>
+            {% else %}
+                <li>Sin eventos.</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ base_url }}/js/app.js"></script>
+{% endblock %}

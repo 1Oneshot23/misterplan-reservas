@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}MisterPlan{% endblock %}</title>
+    <link rel="stylesheet" href="{{ base_url }}/css/estilos.css">
+</head>
+<body>
+<header class="cabecera">
+    <a class="logo" href="{{ base_url }}/">
+        <img class="logo-imagen" src="{{ base_url }}/img/logo.png" alt="MisterPlan">
+    </a>
+    <span class="subtitulo">Gestión de reservas</span>
+</header>
+
+    <main class="contenedor">
+        {# Zona para mensajes de éxito o error (la rellena JavaScript) #}
+        <div id="mensaje" class="mensaje oculto" role="alert"></div>
+
+        {% block contenido %}{% endblock %}
+    </main>
+
+
+
+    {# Variable global para que JavaScript sepa dónde está la API #}
+    <script>window.BASE_URL = {{ base_url|json_encode|raw }};</script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
